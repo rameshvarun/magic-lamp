@@ -5,6 +5,7 @@ description = "Easily integrate LLMs into Python code."
 license = "MIT"
 authors = ["Varun Ramesh <varunramesh@live.com>"]
 readme = "README.md"
+repository = "https://github.com/rameshvarun/magic-lamp"
 
 [tool.poetry.dependencies]
 python = "^3.10"

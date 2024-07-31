@@ -1,6 +1,13 @@
 # magic-lamp
+![PyPI - Version](https://img.shields.io/pypi/v/magic-lamp)
 
 Easily integrate LLM calls into Python code. Requires environment variable `OPENAI_API_KEY` to be set.
+
+```bash
+pip install magic-lamp
+```
+
+## Example
 
 ```python
 import magic_lamp
