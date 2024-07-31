@@ -1,21 +1,26 @@
 import os
 
 from openai import OpenAI
-from typing import Any, List, Tuple
+from typing import List, Tuple
 
 
 class Function:
     def __init__(
-        self, description, examples: List[Tuple[str, str]] = [], model="gpt-4-turbo"
+        self,
+        description: str,
+        examples: List[Tuple[str, str]],
+        model: str = "gpt-4-turbo",
     ):
-        self.system_prompt = f"""Perform the following task.
-Task Description: {description}
+        system_prompt = f"""Perform the following task: {description}
+Return only the output and nothing else."""
 
-EXAMPLES:"""
+        self.messages = [
+            {"role": "system", "content": system_prompt},
+        ]
 
         for example in examples:
-            self.system_prompt += f"""
-{example[0]} -> {example[1]}"""
+            self.messages.append({"role": "user", "content": example[0]})
+            self.messages.append({"role": "assistant", "content": example[1]})
 
         self.model = model
 
@@ -28,11 +33,8 @@ EXAMPLES:"""
         )
 
         chat_completion = client.chat.completions.create(
-            messages=[
-                {
-                    "role": "system",
-                    "content": self.system_prompt,
-                },
+            messages=self.messages
+            + [
                 {"role": "user", "content": arg},
             ],
             model=self.model,
