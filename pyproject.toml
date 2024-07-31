@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "justask"
+name = "magic-lamp"
 version = "0.1.0"
 description = "Easily integrate LLMs into Python code."
 license = "MIT"
