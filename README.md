@@ -1,6 +1,6 @@
 # justask
 
-Easily integrate LLM calls into Python code.
+Easily integrate LLM calls into Python code. Requires environment variable `OPENAI_API_KEY` to be set.
 
 ```python
 import justask
