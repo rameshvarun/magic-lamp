@@ -1,6 +1,7 @@
 import os
+import json
 
-from openai import OpenAI
+from urllib import request
 from typing import List, Tuple
 
 
@@ -9,7 +10,7 @@ class Function:
         self,
         description: str,
         examples: List[Tuple[str, str]],
-        model: str = "gpt-4-turbo",
+        model: str = "gpt-4o-mini",
     ):
         system_prompt = f"""Perform the following task: {description}
 Return only the output and nothing else."""
@@ -28,16 +29,20 @@ Return only the output and nothing else."""
         if "OPENAI_API_KEY" not in os.environ:
             raise Exception("OPENAI_API_KEY not found in environment.")
 
-        client = OpenAI(
-            api_key=os.environ["OPENAI_API_KEY"],
-        )
-
-        chat_completion = client.chat.completions.create(
-            messages=self.messages
+        payload = {
+            "model": self.model,
+            "messages": self.messages
             + [
                 {"role": "user", "content": arg},
             ],
-            model=self.model,
-        )
+        }
 
-        return chat_completion.choices[0].message.content.strip()
+        req = request.Request(
+            "https://api.openai.com/v1/chat/completions", method="POST"
+        )
+        req.add_header("Content-Type", "application/json")
+        req.add_header("Authorization", f'Bearer {os.environ["OPENAI_API_KEY"]}')
+        with request.urlopen(req, data=json.dumps(payload).encode()) as f:
+            response = json.loads(f.read())
+
+        return response['choices'][0]['message']['content'].strip()
