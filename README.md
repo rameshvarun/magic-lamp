@@ -17,3 +17,6 @@ format_name = justask.Function(
 
 print(format_name("MCDOWELL"))
 ```
+
+## Alterantives
+- https://github.com/jackmpcollins/magentic
