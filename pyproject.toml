@@ -1,8 +1,9 @@
 [tool.poetry]
 name = "justask"
 version = "0.1.0"
-description = ""
-authors = ["Your Name <you@example.com>"]
+description = "Easily integrate LLMs into Python code."
+license = "MIT"
+authors = ["Varun Ramesh <varunramesh@live.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
