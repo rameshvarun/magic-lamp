@@ -1,4 +1,4 @@
-.PHONY: format check typecheck
+.PHONY: format check typecheck test
 
 format:
 	poetry run ruff format
@@ -8,3 +8,6 @@ check:
 
 typecheck:
 	poetry run mypy .
+
+test:
+	poetry run python test.py
