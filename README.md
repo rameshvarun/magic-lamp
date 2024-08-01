@@ -42,7 +42,7 @@ format_number = magic_lamp.Function(
     examples=[
         ("1", "one"),
         ("35", "thirty-five"),
-        ("15,690", "fifteen thousand, six hundred ninety"),
+        ("15690", "fifteen thousand, six hundred ninety"),
     ],
     model="gpt-4o-mini"
 )
