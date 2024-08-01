@@ -1,7 +1,7 @@
 # magic-lamp
 [![PyPI - Version](https://img.shields.io/pypi/v/magic-lamp)](https://pypi.org/project/magic-lamp/)
 
-Easily integrate LLM calls into Python code. Requires environment variable `OPENAI_API_KEY` to be set.
+Easily integrate LLM calls into Python code.
 
 ```bash
 pip install magic-lamp
@@ -19,11 +19,12 @@ format_name = magic_lamp.Function(
         ("OCONNELL", "O'Connel"),
         ("MCDONALD", "McDonald")
     ],
-    model="gpt-4o-mini"
 )
 
 print(format_name("MCDOWELL"))
 ```
+
+By default, `magic-lamp` downloads and runs a local LLM.
 
 ## Alternatives
 - https://github.com/jackmpcollins/magentic

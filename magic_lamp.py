@@ -11,13 +11,15 @@ class LLMModel:
 
 
 class LLamaCppModel(LLMModel):
-    def __init__(self):
+    def __init__(
+        self,
+        repo_id="bullerwins/Meta-Llama-3.1-8B-Instruct-GGUF",
+        filename="Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf",
+    ):
         from llama_cpp import Llama
 
         self.llm = Llama.from_pretrained(
-            repo_id="bullerwins/Meta-Llama-3.1-8B-Instruct-GGUF",
-            filename="Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf",
-            verbose=False
+            repo_id=repo_id, filename=filename, verbose=False
         )
 
     def chat_completion(self, messages) -> str:
