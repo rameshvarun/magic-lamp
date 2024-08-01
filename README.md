@@ -1,7 +1,7 @@
 # magic-lamp
 [![PyPI - Version](https://img.shields.io/pypi/v/magic-lamp)](https://pypi.org/project/magic-lamp/)
 
-Easily integrate LLM calls into Python code.
+Easily integrate LLM calls into Python code. By default, uses a local LLM.
 
 ## Quickstart
 
@@ -26,9 +26,9 @@ format_name = magic_lamp.Function(
 print(format_name("MCDOWELL"))
 ```
 
-By default, `magic-lamp` downloads and runs a local LLM. For more complex tasks, use OpenAI.
-
 ## Configuring the LLM
+
+By default, `magic-lamp` downloads and runs a local LLM from Hugging Face. For more complex tasks, OpenAI models will perform better.
 
 ### Using OpenAI
 
@@ -47,7 +47,7 @@ format_number = magic_lamp.Function(
     model="gpt-4o-mini"
 )
 
-print(format_number("328,745,226,793"))
+print(format_number("328745226793"))
 ```
 
 ## Alternatives
