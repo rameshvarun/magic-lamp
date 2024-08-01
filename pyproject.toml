@@ -9,6 +9,7 @@ repository = "https://github.com/rameshvarun/magic-lamp"
 
 [tool.poetry.dependencies]
 python = "^3.8"
+llama-cpp-python = "^0.2.85"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.5.5"

@@ -10,6 +10,19 @@ class LLMModel:
         raise NotImplementedError("chat_completion not implemented.")
 
 
+class LLamaCppModel(LLMModel):
+    def __init__(self):
+        from llama_cpp import Llama
+
+        self.llm = Llama(
+            model_path="./Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf", verbose=False
+        )
+
+    def chat_completion(self, messages) -> str:
+        result = self.llm.create_chat_completion(messages=messages)
+        return result["choices"][0]["message"]["content"].strip()
+
+
 class OpenAIModel(LLMModel):
     def __init__(self, model: str):
         if "OPENAI_API_KEY" not in os.environ:
@@ -78,7 +91,7 @@ class Function:
         self,
         description: str,
         examples: List[Tuple[str, str]],
-        model: Union[str, LLMModel] = "gpt-4o-mini",
+        model: Union[str, LLMModel] = LLamaCppModel(),
     ):
         system_prompt = f"""Perform the following task: {description}
 Return only the output and nothing else."""
