@@ -7,7 +7,6 @@ format_name = magic_lamp.Function(
         ("OCONNELL", "O'Connel"),
         ("MCDONALD", "McDonald"),
     ],
-    model="gpt-4o-mini",
 )
 
 print(format_name("MCDOWELL"))
