@@ -94,7 +94,7 @@ class Function:
     def __init__(
         self,
         description: str,
-        examples: List[Tuple[str, str]],
+        examples: List[Tuple[str, str]] = [],
         model: Union[str, LLMModel] = LLamaCppModel(),
     ):
         system_prompt = f"""Perform the following task: {description}
