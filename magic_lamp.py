@@ -180,7 +180,7 @@ False # This is a boolean.
         elif all(is_literal(o) for o in outputs):
             return "ast-literal"
         else:
-            raise Exception("I don't know how to serialize your outputs.")
+            raise Exception("Outputs must be Python literals.")
 
     def _parse_output(self, output: str) -> Any:
         if self.output_type == "string":
