@@ -18,7 +18,7 @@ format_name = magic_lamp.Function(
     'Format this surname in a way that it would be written out.',
     examples=[
         ("PERALTA", "Peralta"),
-        ("OCONNELL", "O'Connel"),
+        ("OCONNELL", "O'Connell"),
         ("MCDONALD", "McDonald")
     ],
 )
