@@ -15,7 +15,7 @@ Define a function with a description and a set of examples.
 import magic_lamp
 
 get_atoms = magic_lamp.Function(
-    "Break this molecule down into it's consituent atoms. Return as a set.",
+    "Break this molecule down into it's constituent atoms. Return as a set.",
     examples=[
         ("water", {"hydrogen", "oxygen"}),
         ("glucose", {"carbon", "hydrogen", "oxygen"}),
