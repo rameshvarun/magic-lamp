@@ -90,7 +90,9 @@ def get_backend(model_name: str) -> LLMModel:
             f"Couldn't automatically create backend for model name: {model_name}"
         )
 
+
 OutputType = Literal["string", "ast-literal"]
+
 
 class Function:
     def __init__(
@@ -152,9 +154,7 @@ False # This is a boolean.
         else:
             return repr(input_val)
 
-    def _get_output_type(
-        self, examples: List[Tuple[Any, Any]]
-    ) -> OutputType:
+    def _get_output_type(self, examples: List[Tuple[Any, Any]]) -> OutputType:
         """
         Depending on the type of the outputs (as deduced from the examples),
         different prompting strategies will be used.
@@ -183,9 +183,14 @@ False # This is a boolean.
         else:
             raise Exception(f"Unknown output type: {self.output_type}")
 
-    def __call__(self, arg: str) -> str:
+    def __call__(self, *args: str) -> str:
+        if len(args) == 1:
+            content = self._format_input(args[0])
+        else:
+            content = self._format_input(args)
+
         messages = self.messages + [
-            {"role": "user", "content": self._format_input(arg)},
+            {"role": "user", "content": content},
         ]
         completion = self.model.chat_completion(messages)
         return self._parse_output(completion)

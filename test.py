@@ -26,18 +26,26 @@ class TestMagicLamp(unittest.TestCase):
         )
 
         self.assertEqual(next_president("Calvin Coolidge"), "Herbert Hoover")
-    
+
     def test_return_boolean(self):
         is_positive = magic_lamp.Function(
             "Return True if this movie review is positive, else return False.",
             examples=[
-                ("An exceptionally smart, brooding picture with some terrific performances.", True),
+                (
+                    "An exceptionally smart, brooding picture with some terrific performances.",
+                    True,
+                ),
                 ("Ugly, annoying and inconsistent.", False),
             ],
         )
 
-        self.assertEqual(is_positive("The final moments of Infinity War are haunting and impactful and mysterious."), True)
-    
+        self.assertEqual(
+            is_positive(
+                "The final moments of Infinity War are haunting and impactful and mysterious."
+            ),
+            True,
+        )
+
     def test_return_set(self):
         get_atoms = magic_lamp.Function(
             "Break this molecule down into it's consituent atoms. Return as a set.",
@@ -48,6 +56,17 @@ class TestMagicLamp(unittest.TestCase):
         )
 
         self.assertEqual(get_atoms("ammonia"), {"nitrogen", "hydrogen"})
+
+    def test_multi_arg(self):
+        add_numbers = magic_lamp.Function(
+            "Add these two numbers.",
+            examples=[
+                ((1, 1), 2),
+                ((12, 43), 55),
+            ],
+        )
+
+        self.assertEqual(add_numbers(84, 6), 90)
 
     @unittest.skip("Needs chain of thought to make it better.")
     def test_return_number(self):

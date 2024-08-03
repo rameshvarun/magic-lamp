@@ -25,6 +25,8 @@ get_atoms = magic_lamp.Function(
 print(get_atoms("ammonia"))
 ```
 
+Functions can return any Python literal.
+
 ## Configuring the LLM
 
 By default, `magic-lamp` downloads and runs a local LLM from Hugging Face. For more complex tasks, OpenAI models will perform better.
