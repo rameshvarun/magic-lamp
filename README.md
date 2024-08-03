@@ -1,7 +1,7 @@
 # magic-lamp
 [![PyPI - Version](https://img.shields.io/pypi/v/magic-lamp)](https://pypi.org/project/magic-lamp/)
 
-Create magic LLM-powered Python functions that return anything you ask for. Downloads and uses a local LLM.
+Create magic LLM-powered Python functions that return anything you ask for. Many caveats.
 
 ## Quickstart
 
@@ -25,7 +25,7 @@ get_atoms = magic_lamp.Function(
 print(get_atoms("ammonia")) # => {"nitrogen", "hydrogen"}
 ```
 
-Functions can return any Python literal.
+Functions can return any Python literal (strings, numbers, dicts, tuples lists, etc). No API keys are required, since by default `magic-lamp` downloads and runs a local LLM.
 
 ## Configuring the LLM
 
