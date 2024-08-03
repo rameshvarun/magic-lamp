@@ -1,8 +1,9 @@
 import os
 import json
+import ast
 
 from urllib import request
-from typing import List, Tuple, Union
+from typing import List, Tuple, Union, Any, Literal
 
 
 class LLMModel:
@@ -89,6 +90,7 @@ def get_backend(model_name: str) -> LLMModel:
             f"Couldn't automatically create backend for model name: {model_name}"
         )
 
+OutputType = Literal["string", "ast-literal"]
 
 class Function:
     def __init__(
@@ -97,26 +99,93 @@ class Function:
         examples: List[Tuple[str, str]] = [],
         model: Union[str, LLMModel] = LLamaCppModel(),
     ):
-        system_prompt = f"""Perform the following task: {description}
-Return only the output and nothing else."""
+        self.output_type = self._get_output_type(examples)
+
+        system_prompt = f"Perform the following task: {description}"
+
+        if self.output_type == "string":
+            system_prompt += """
+Return only the output and nothing else. Do not wrap in quotation marks."""
+        elif self.output_type == "ast-literal":
+            system_prompt += """
+Return your result as a Python literal. Characters in strings must be properly escaped.
+
+Examples of Python Literals:
+45.03 # This is a number.
+False # This is a boolean.
+'that\\'s' # This is an escaped string.
+"\\"hello world\\"" # This is an escaped string.
+['a', 1, 2, 3] # This is a list of elements
+{'x', 'y', 'z'} # This is a set of elements.
+('a', 3) # This is a tuple."""
+        else:
+            raise Exception(f"Unknown output type: {self.output_type}")
 
         self.messages = [
             {"role": "system", "content": system_prompt},
         ]
 
         for example in examples:
-            self.messages.append({"role": "user", "content": example[0]})
-            self.messages.append({"role": "assistant", "content": example[1]})
+            self.messages.append(
+                {"role": "user", "content": self._format_input(example[0])}
+            )
+            self.messages.append(
+                {"role": "assistant", "content": self._format_output(example[1])}
+            )
 
         if isinstance(model, str):
             self.model = get_backend(model)
         else:
             self.model = model
 
+    def _format_output(self, output: Any) -> str:
+        if self.output_type == "string":
+            return output
+        elif self.output_type == "ast-literal":
+            return repr(output)
+        else:
+            raise Exception(f"Unknown output type: {self.output_type}")
+
+    def _format_input(self, input_val) -> str:
+        if isinstance(input_val, str):
+            return input_val
+        else:
+            return repr(input_val)
+
+    def _get_output_type(
+        self, examples: List[Tuple[Any, Any]]
+    ) -> OutputType:
+        """
+        Depending on the type of the outputs (as deduced from the examples),
+        different prompting strategies will be used.
+        """
+
+        outputs = [e[1] for e in examples]
+
+        if len(outputs) == 0:
+            # If no examples were provided, the output type is 'string'.
+            return "string"
+        elif all(isinstance(o, str) for o in outputs):
+            return "string"
+        elif all(o == ast.literal_eval(repr(o)) for o in outputs):
+            return "ast-literal"
+        else:
+            raise Exception("I don't know how to serialize your outputs.")
+
+    def _parse_output(self, output: str) -> Any:
+        if self.output_type == "string":
+            return output
+        elif self.output_type == "ast-literal":
+            try:
+                return ast.literal_eval(output)
+            except (SyntaxError, ValueError):
+                raise Exception(f"Failed to parse LLM output: {output}")
+        else:
+            raise Exception(f"Unknown output type: {self.output_type}")
+
     def __call__(self, arg: str) -> str:
-        return self.model.chat_completion(
-            self.messages
-            + [
-                {"role": "user", "content": arg},
-            ],
-        )
+        messages = self.messages + [
+            {"role": "user", "content": self._format_input(arg)},
+        ]
+        completion = self.model.chat_completion(messages)
+        return self._parse_output(completion)

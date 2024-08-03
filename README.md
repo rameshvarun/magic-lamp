@@ -1,7 +1,7 @@
 # magic-lamp
 [![PyPI - Version](https://img.shields.io/pypi/v/magic-lamp)](https://pypi.org/project/magic-lamp/)
 
-Easily integrate LLM calls into Python code. By default, uses a local LLM.
+Magic LLM-powered Python functions that do whatever you ask. Downloads and uses a local LLM.
 
 ## Quickstart
 
@@ -14,16 +14,15 @@ Define a function with a description and a set of examples.
 ```python
 import magic_lamp
 
-format_name = magic_lamp.Function(
-    'Format this surname in a way that it would be written out.',
+get_atoms = magic_lamp.Function(
+    "Break this molecule down into it's consituent atoms. Return as a set.",
     examples=[
-        ("PERALTA", "Peralta"),
-        ("OCONNELL", "O'Connell"),
-        ("MCDONALD", "McDonald")
+        ("water", {"hydrogen", "oxygen"}),
+        ("glucose", {"carbon", "hydrogen", "oxygen"}),
     ],
 )
 
-print(format_name("MCDOWELL"))
+print(get_atoms("ammonia"))
 ```
 
 ## Configuring the LLM
@@ -37,17 +36,18 @@ By default, `magic-lamp` downloads and runs a local LLM from Hugging Face. For m
 ```python
 import magic_lamp
 
+
 format_number = magic_lamp.Function(
     'Write this number out in words.',
     examples=[
-        ("1", "one"),
-        ("35", "thirty-five"),
-        ("15690", "fifteen thousand, six hundred ninety"),
+        (1, "one"),
+        (35, "thirty-five"),
+        (15690, "fifteen thousand, six hundred ninety"),
     ],
     model="gpt-4o-mini"
 )
 
-print(format_number("328745226793"))
+print(format_number(328745226793))
 ```
 
 ## Links
