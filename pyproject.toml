@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "magic-lamp"
-version = "0.3.0"
+version = "0.4.0"
 description = "Easily integrate LLMs into Python code."
 license = "MIT"
 authors = ["Varun Ramesh <varunramesh@live.com>"]
