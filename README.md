@@ -1,7 +1,7 @@
 # magic-lamp
 [![PyPI - Version](https://img.shields.io/pypi/v/magic-lamp)](https://pypi.org/project/magic-lamp/)
 
-Magic LLM-powered Python functions that do whatever you ask. Downloads and uses a local LLM.
+Create magic LLM-powered Python functions that do whatever you ask. Downloads and uses a local LLM.
 
 ## Quickstart
 
@@ -22,7 +22,7 @@ get_atoms = magic_lamp.Function(
     ],
 )
 
-print(get_atoms("ammonia"))
+print(get_atoms("ammonia")) # => {"nitrogen", "hydrogen"}
 ```
 
 Functions can return any Python literal.

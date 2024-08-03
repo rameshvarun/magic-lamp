@@ -5,6 +5,16 @@ import ast
 from urllib import request
 from typing import List, Tuple, Union, Any, Literal
 
+def is_literal(value: Any) -> bool:
+    """
+    Check if 'value' object can be serialized and deserialized
+    using a combination of 'repr' and 'ast.literal_eval'.
+    """
+    try:
+        return value == ast.literal_eval(repr(value))
+    except:
+        return False
+
 
 class LLMModel:
     def chat_completion(self, messages) -> str:
@@ -167,7 +177,7 @@ False # This is a boolean.
             return "string"
         elif all(isinstance(o, str) for o in outputs):
             return "string"
-        elif all(o == ast.literal_eval(repr(o)) for o in outputs):
+        elif all(is_literal(o) for o in outputs):
             return "ast-literal"
         else:
             raise Exception("I don't know how to serialize your outputs.")
