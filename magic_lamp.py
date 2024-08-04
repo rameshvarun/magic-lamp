@@ -103,14 +103,31 @@ def get_backend(model_name: str) -> LLMModel:
 
 OutputType = Literal["string", "ast-literal"]
 
+_default_model = None
+
+def get_default_model() -> LLMModel:
+    global _default_model
+
+    if _default_model == None:
+        _default_model = LLamaCppModel()
+
+    return _default_model
+
 
 class Function:
     def __init__(
         self,
         description: str,
         examples: List[Tuple[str, str]] = [],
-        model: Union[str, LLMModel] = LLamaCppModel(),
+        model: Union[str, LLMModel] = None,
     ):
+        if model == None:
+            self.model = get_default_model()
+        elif isinstance(model, str):
+            self.model = get_backend(model)
+        else:
+            self.model = model
+
         self.output_type = self._get_output_type(examples)
 
         system_prompt = f"Perform the following task: {description}"
@@ -145,10 +162,6 @@ False # This is a boolean.
                 {"role": "assistant", "content": self._format_output(example[1])}
             )
 
-        if isinstance(model, str):
-            self.model = get_backend(model)
-        else:
-            self.model = model
 
     def _format_output(self, output: Any) -> str:
         if self.output_type == "string":

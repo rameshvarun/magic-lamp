@@ -53,6 +53,7 @@ print(format_number(328745226793))
 
 ## Links
 - https://github.com/jackmpcollins/magentic - A similar concept but using decorators.
+- https://github.com/PrefectHQ/marvin - Antoher similar concept.
 - https://github.com/abetlen/llama-cpp-python - Used by this library to run the local LLM.
 - https://ai.meta.com/blog/meta-llama-3-1/ - Llama 3.1 8b is the default model.
 - https://huggingface.co/bullerwins/Meta-Llama-3.1-8B-Instruct-GGUF - Uses these GGUFs by default.

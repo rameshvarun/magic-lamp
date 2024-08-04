@@ -68,7 +68,6 @@ class TestMagicLamp(unittest.TestCase):
 
         self.assertEqual(add_numbers(84, 6), 90)
 
-    @unittest.skip("Needs chain of thought to make it better.")
     def test_return_number(self):
         count_s = magic_lamp.Function(
             "Count the number of instances of the letter 's' in the word.",
@@ -78,7 +77,7 @@ class TestMagicLamp(unittest.TestCase):
         self.assertEqual(count_s("supercalifragilisticexpialidocious"), 3)
 
     def test_models_cache(self):
-        """Ensure that loaded models are being cached and not re-loaded for every function."""
+        """Ensure that the default model is being cached and not re-loaded for every function."""
 
         functions = []
         for i in range(20):
